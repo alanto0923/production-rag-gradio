@@ -150,5 +150,4 @@ python your_script_name.py
 3.  **Click "Create Workspace and Process Document(s)"**: Monitor the live logs as the system ingests your data. The chat interface will appear upon completion.
 4.  **Ask Questions:** Type your query into the chat. For deeper, more abstract questions, enable the **"Conceptual Search"** checkbox to activate the HyDE strategy.
 5.  **Review Verified Answers:** Analyze the response, its validation emoji (✅/❌), and the supporting source snippets provided.
-6.  **Reset:** To start over with new documents, click **"Process Other Documents"**.
-<img width="415" height="688" alt="image" src="https://github.com/user-attachments/assets/a3616bc3-9449-4861-9c3a-e9b1cc508290" />
+6.  **Reset:** To start over with new documents, click **"Process Other Documents"**. 
