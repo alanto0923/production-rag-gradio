@@ -33,6 +33,8 @@ The system is logically divided into two distinct phases: a one-time **Ingestion
 
 This automated pipeline converts raw, unstructured documents into a highly optimized and searchable vector knowledge base.
 
+<img width="1024" height="532" alt="Generated Image October 17, 2025 - 2_16AM" src="https://github.com/user-attachments/assets/dadbbab0-c760-43d1-9f62-e80bcfd592ae" />
+
 1.  **Initiation:** The user selects documents and a pre-configured Processing Profile via the Gradio UI.
 2.  **Workspace Isolation:** A new, secure workspace with a unique timestamped name is instantiated in AnythingLLM.
 3.  **Intelligent Page Analysis:** The system iterates through each page of the source PDF, classifying each page as "simple" (text-only) or "complex."
@@ -44,6 +46,8 @@ This automated pipeline converts raw, unstructured documents into a highly optim
 ### Phase 2: Query, Verification & Response
 
 This multi-agent pipeline processes a user's question to deliver a factually verified, fully cited answer.
+
+<img width="1013" height="532" alt="Generated Image October 17, 2025 - 2_12AM" src="https://github.com/user-attachments/assets/6061a1f3-eb40-408f-bcce-0c449e8563bf" />
 
 1.  **Query Input:** The user submits a question.
 2.  **Query Enhancement:** This includes optional HyDE and multi-query expansion.
