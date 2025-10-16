@@ -33,7 +33,23 @@ The system is logically divided into two distinct phases: a one-time **Ingestion
 
 This automated pipeline converts raw, unstructured documents into a highly optimized and searchable vector knowledge base.
 
-<img width="1024" height="532" alt="Generated Image October 17, 2025 - 2_16AM" src="https://github.com/user-attachments/assets/dadbbab0-c760-43d1-9f62-e80bcfd592ae" />
+```mermaid
+graph TD
+    A[User Selects Documents & Profile (Gradio UI)] --> B{Instantiate Secure Workspace (AnythingLLM)};
+    B --> C[Iterate Through PDF Pages];
+    C --> D{Page Classification (Simple vs. Complex)};
+
+    D -- Simple Page --> E[Fast OCR];
+    D -- Complex Page --> F[VLM Content Extraction (Tables, Charts, Layout)];
+
+    E --> G[Structured Text];
+    F --> G[Structured Text];
+
+    G --> H[Semantic Chunking];
+    H --> I[Robust Chunk Upload (AnythingLLM)];
+    I --> J[Vectorization & Indexing (AnythingLLM)];
+    J --> K[Knowledge Base Ready for Querying];
+```
 
 1.  **Initiation:** The user selects documents and a pre-configured Processing Profile via the Gradio UI.
 2.  **Workspace Isolation:** A new, secure workspace with a unique timestamped name is instantiated in AnythingLLM.
@@ -47,7 +63,21 @@ This automated pipeline converts raw, unstructured documents into a highly optim
 
 This multi-agent pipeline processes a user's question to deliver a factually verified, fully cited answer.
 
-<img width="1013" height="532" alt="Generated Image October 17, 2025 - 2_12AM" src="https://github.com/user-attachments/assets/6061a1f3-eb40-408f-bcce-0c449e8563bf" />
+```mermaid
+graph TD
+    L[User Submits Question] --> M{Query Enhancement};
+    M -- Optional --> N[HyDE (Conceptual Search)];
+    M -- Always --> O[Multi-Query Expansion];
+
+    N --> P[Multi-Vector Retrieval (Candidate Pool)];
+    O --> P[Multi-Vector Retrieval (Candidate Pool)];
+
+    P --> Q[Precision Reranking (CrossEncoder)];
+    Q --> R[Contextual Synthesis];
+    R --> S[Chain-of-Verification (LLM Fact-Check)];
+    S -- Validated --> T[Verified Response Delivery (✅ + Citations)];
+    S -- Not Validated --> U[Verified Response Delivery (❌ + Citations)];
+```
 
 1.  **Query Input:** The user submits a question.
 2.  **Query Enhancement:** This includes optional HyDE and multi-query expansion.
