@@ -35,19 +35,19 @@ This automated pipeline converts raw, unstructured documents into a highly optim
 
 ```mermaid
 graph TD
-    A[User Selects Documents & Profile (Gradio UI)] --> B{Instantiate Secure Workspace (AnythingLLM)};
+    A[User Selects Documents & Profile] --> B{Instantiate Secure Workspace (AnythingLLM)};
     B --> C[Iterate Through PDF Pages];
     C --> D{Page Classification (Simple vs. Complex)};
 
     D -- Simple Page --> E[Fast OCR];
-    D -- Complex Page --> F[VLM Content Extraction (Tables, Charts, Layout)];
+    D -- Complex Page --> F[VLM Content Extraction];
 
     E --> G[Structured Text];
     F --> G[Structured Text];
 
     G --> H[Semantic Chunking];
-    H --> I[Robust Chunk Upload (AnythingLLM)];
-    I --> J[Vectorization & Indexing (AnythingLLM)];
+    H --> I[Robust Chunk Upload];
+    I --> J[Vectorization & Indexing];
     J --> K[Knowledge Base Ready for Querying];
 ```
 
