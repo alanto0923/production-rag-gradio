@@ -64,19 +64,43 @@ graph TD
 This multi-agent pipeline processes a user's question to deliver a factually verified, fully cited answer.
 
 ```mermaid
+%% Phase 2: Enterprise RAG - Query & Verification Pipeline (Final)
 graph TD
-    L[User Submits Question] --> M{Query Enhancement};
-    M -- Optional --> N[HyDE (Conceptual Search)];
-    M -- Always --> O[Multi-Query Expansion];
+    style UserInput fill:#0288d1,color:#fff,stroke:#333,stroke-width:2px
+    style VerifiedResponse fill:#4caf50,color:#fff,stroke:#333,stroke-width:2px
+    style CoV fill:#ffc107,color:#000,stroke:#333,stroke-width:2px
 
-    N --> P[Multi-Vector Retrieval (Candidate Pool)];
-    O --> P[Multi-Vector Retrieval (Candidate Pool)];
+    subgraph " "
+        direction LR
+        UserInput(👤<br>User Asks Question)
+    end
 
-    P --> Q[Precision Reranking (CrossEncoder)];
-    Q --> R[Contextual Synthesis];
-    R --> S[Chain-of-Verification (LLM Fact-Check)];
-    S -- Validated --> T[Verified Response Delivery (✅ + Citations)];
-    S -- Not Validated --> U[Verified Response Delivery (❌ + Citations)];
+    subgraph "Step 1: Query Understanding & Expansion"
+        UserInput --> A{Query Enhancement};
+        A -- "Optional Conceptual Search" --> B[💡 HyDE<br>Generate Hypothetical Answer];
+        A -- "Standard" --> C[🔍 Multi-Query Expansion<br>Broaden Search Recall];
+    end
+
+    subgraph "Step 2: Retrieval & Precision Reranking"
+        B --> D(Multi-Vector Retrieval);
+        C --> D;
+        D --> E[🎯 Cross-Encoder Reranking<br>Score for Maximum Relevance];
+        E --> F(Assemble Final Context);
+    end
+
+    subgraph "Step 3: Synthesis & Chain-of-Verification"
+        F --> G(🧠 Synthesize Answer);
+        G --> CoV(🛡️ Chain-of-Verification CoV<br>Fact-Check Answer Against Sources);
+        CoV --> H{Is Every Claim<br>Supported by Context?};
+        H -- "Yes" --> I[✅ Validated Answer<br>Append Citations];
+        H -- "No" --> J[❌ Invalidated Answer<br>Flag Hallucination];
+    end
+
+    subgraph " "
+        direction LR
+        I --> VerifiedResponse(Final Verified Response)
+        J --> VerifiedResponse
+    end
 ```
 
 1.  **Query Input:** The user submits a question.
