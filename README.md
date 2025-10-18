@@ -34,21 +34,41 @@ The system is logically divided into two distinct phases: a one-time **Ingestion
 This automated pipeline converts raw, unstructured documents into a highly optimized and searchable vector knowledge base.
 
 ```mermaid
-graph TD
-    A[User Selects Documents & Profile] --> B{Instantiate Secure Workspace (AnythingLLM)};
-    B --> C[Iterate Through PDF Pages];
-    C --> D{Page Classification (Simple vs. Complex)};
+%% Phase 1: Enterprise RAG - Ingestion Pipeline (Refined)
+graph LR
+    style Start fill:#0288d1,color:#fff,stroke:#333,stroke-width:2px
+    style KB fill:#4caf50,color:#fff,stroke:#333,stroke-width:2px
+    style ALM fill:#f5f5f5,stroke:#333,stroke-width:1px
 
-    D -- Simple Page --> E[Fast OCR];
-    D -- Complex Page --> F[VLM Content Extraction];
+    subgraph " "
+        Start(["📄 User Input:<br>Documents &<br>⚙️ Processing Profile"])
+    end
 
-    E --> G[Structured Text];
-    F --> G[Structured Text];
+    subgraph "Step 1: Secure Workspace Preparation"
+        A["🔐 Create Isolated<br>Timestamped Workspace"]
+    end
 
-    G --> H[Semantic Chunking];
-    H --> I[Robust Chunk Upload];
-    I --> J[Vectorization & Indexing];
-    J --> K[Knowledge Base Ready for Querying];
+    subgraph "Step 2: Hybrid Content Extraction"
+        B{"🧠 Intelligent<br>Page Analysis"}
+        B -- "Simple Layout" --> C["⚡<br>High-Speed OCR"]
+        B -- "Complex Layout" --> D["👁️<br>Vision Language Model<br>(VLM) for Tables, Charts"]
+        C --> E(📝<br>Aggregate &<br>Structure Text)
+        D --> E
+    end
+
+    subgraph "Step 3: Vectorization in AnythingLLM"
+        style ALM fill:#f9f9f9,stroke:#ddd
+        E --> F["✂️<br>Semantic<br>Chunking"]
+        F --> G["📤<br>Stable Sequential<br>Upload to AnythingLLM"]
+        G --> H["➕<br>Vectorize & Index"]
+    end
+
+    subgraph " "
+        H --> KB(["✅<br>Query-Ready<br>Knowledge Base"])
+    end
+
+    %% Define the flow
+    Start --> A --> B
 ```
 
 1.  **Initiation:** The user selects documents and a pre-configured Processing Profile via the Gradio UI.
