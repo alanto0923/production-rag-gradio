@@ -163,7 +163,8 @@ graph TD
     S3_Decision -- "Yes" --> S3_PathA
     S3_Decision -- "No" --> S3_PathB
     S3_PathA --> FinalResponse
-    S3_PathB --> FinalResponse```
+    S3_PathB --> FinalResponse
+```
 
 1.  **Query Input:** The user submits a question.
 2.  **Query Enhancement:** This includes optional HyDE and multi-query expansion.
