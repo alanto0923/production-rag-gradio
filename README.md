@@ -37,7 +37,7 @@ This automated pipeline converts raw, unstructured documents into a highly optim
 graph TD
 
     %% --- Style Definitions ---
-    classDef header fill:none,color:#000,stroke:none,font-weight:bold,font-size:23px
+    classDef header fill:none,color:#000,stroke:none,font-weight:bold,font-size:24px
     classDef step fill:#f3e5f5,color:#333,stroke:#ab47bc,stroke-width:1px
     classDef diamond fill:#e1bee7,color:#333,stroke:#8e24aa,stroke-width:1px
     classDef start fill:#2196f3,color:#fff,stroke:#1976d2,stroke-width:2px
@@ -103,44 +103,67 @@ graph TD
 This multi-agent pipeline processes a user's question to deliver a factually verified, fully cited answer.
 
 ```mermaid
-%% Phase 2: Enterprise RAG - Query & Verification Pipeline (Final)
 graph TD
-    style UserInput fill:#0288d1,color:#fff,stroke:#333,stroke-width:2px
-    style VerifiedResponse fill:#4caf50,color:#fff,stroke:#333,stroke-width:2px
-    style CoV fill:#ffc107,color:#000,stroke:#333,stroke-width:2px
 
-    subgraph " "
-        direction LR
-        UserInput(👤<br>User Asks Question)
+    %% --- Style Definitions ---
+    classDef header fill:none,color:#000,stroke:none,font-weight:bold,font-size:24px
+    classDef step fill:#e3f2fd,color:#333,stroke:#42a5f5,stroke-width:1px
+    classDef decision fill:#e1f5fe,color:#333,stroke:#03a9f4,stroke-width:1px
+    classDef input fill:#0288d1,color:#fff,stroke:#01579b,stroke-width:2px
+    classDef output fill:#4caf50,color:#fff,stroke:#388e3c,stroke-width:2px
+    classDef cov fill:#fffde7,color:#000,stroke:#fbc02d,stroke-width:2px
+
+    %% --- Chart Definition ---
+    UserInput([👤 User Asks Question]):::input
+
+    subgraph subgraph1 [ ]
+        style subgraph1 fill:#fef9e7,stroke:#f1c40f
+        S1_Title[Step 1: Query Understanding]:::header
+        S1_Decision{Query Enhancement}:::decision
+        S1_PathA[💡 HyDE<br>Optional Conceptual Search]:::step
+        S1_PathB[🔍 Multi-Query Expansion<br>Broaden Search Recall]:::step
     end
 
-    subgraph "Step 1: Query Understanding & Expansion"
-        UserInput --> A{Query Enhancement};
-        A -- "Optional Conceptual Search" --> B[💡 HyDE<br>Generate Hypothetical Answer];
-        A -- "Standard" --> C[🔍 Multi-Query Expansion<br>Broaden Search Recall];
+    subgraph subgraph2 [ ]
+        style subgraph2 fill:#fef9e7,stroke:#f1c40f
+        S2_Title[Step 2: Retrieval & Reranking]:::header
+        S2_Action1[📚 Multi-Vector Retrieval]:::step
+        S2_Action2[🎯 Cross-Encoder Reranking]:::step
+        S2_Action3[📋 Assemble Final Context]:::step
     end
 
-    subgraph "Step 2: Retrieval & Precision Reranking"
-        B --> D(Multi-Vector Retrieval);
-        C --> D;
-        D --> E[🎯 Cross-Encoder Reranking<br>Score for Maximum Relevance];
-        E --> F(Assemble Final Context);
+    subgraph subgraph3 [ ]
+        style subgraph3 fill:#fef9e7,stroke:#f1c40f
+        S3_Title[Step 3: Synthesis & Verification]:::header
+        S3_Action1[🧠 Synthesize Answer]:::step
+        S3_CoV[🛡️ Chain-of-Verification<br>Fact-Check Answer Against Sources]:::cov
+        S3_Decision{Is Every Claim Supported?}:::decision
+        S3_PathA[✅ Validated Answer<br>Append Citations]:::step
+        S3_PathB[❌ Invalidated Answer<br>Flag Hallucination]:::step
     end
 
-    subgraph "Step 3: Synthesis & Chain-of-Verification"
-        F --> G(🧠 Synthesize Answer);
-        G --> CoV(🛡️ Chain-of-Verification CoV<br>Fact-Check Answer Against Sources);
-        CoV --> H{Is Every Claim<br>Supported by Context?};
-        H -- "Yes" --> I[✅ Validated Answer<br>Append Citations];
-        H -- "No" --> J[❌ Invalidated Answer<br>Flag Hallucination];
-    end
+    FinalResponse([Final Verified Response]):::output
 
-    subgraph " "
-        direction LR
-        I --> VerifiedResponse(Final Verified Response)
-        J --> VerifiedResponse
-    end
-```
+    %% --- Explicit Connections ---
+    UserInput --> S1_Title
+    S1_Title --> S1_Decision
+    S1_Decision -- "Conceptual" --> S1_PathA
+    S1_Decision -- "Standard" --> S1_PathB
+
+    S1_PathA --> S2_Title
+    S1_PathB --> S2_Title
+    S2_Title --> S2_Action1
+    S2_Action1 --> S2_Action2
+    S2_Action2 --> S2_Action3
+
+    S2_Action3 --> S3_Title
+    S3_Title --> S3_Action1
+    S3_Action1 --> S3_CoV
+    S3_CoV --> S3_Decision
+    S3_Decision -- "Yes" --> S3_PathA
+    S3_Decision -- "No" --> S3_PathB
+    S3_PathA --> FinalResponse
+    S3_PathB --> FinalResponse```
 
 1.  **Query Input:** The user submits a question.
 2.  **Query Enhancement:** This includes optional HyDE and multi-query expansion.
