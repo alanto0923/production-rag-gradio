@@ -182,7 +182,7 @@ graph TD
 
 *   **Python 3.8+** and `pip`
 *   **Ollama:** Installed and running. [Download here](https://ollama.com/).
-*   **AnythingLLM:** Docker is the recommended setup. [Official Guide](https://docs.useanything.com/getting-started/docker-installation).
+*   **AnythingLLM:** Docker is the recommended setup. [Official Guide](https://docs.anythingllm.com/installation-docker/local-docker).
 *   **Git**
 
 ### 1. Clone the Repository
