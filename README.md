@@ -34,41 +34,60 @@ The system is logically divided into two distinct phases: a one-time **Ingestion
 This automated pipeline converts raw, unstructured documents into a highly optimized and searchable vector knowledge base.
 
 ```mermaid
-%% Phase 1: Enterprise RAG - Ingestion Pipeline (Refined)
-graph LR
-    style Start fill:#0288d1,color:#fff,stroke:#333,stroke-width:2px
-    style KB fill:#4caf50,color:#fff,stroke:#333,stroke-width:2px
-    style ALM fill:#f5f5f5,stroke:#333,stroke-width:1px
+graph TD
 
-    subgraph " "
-        Start(["📄 User Input:<br>Documents &<br>⚙️ Processing Profile"])
+    %% --- Style Definitions ---
+    classDef header fill:none,color:#000,stroke:none,font-weight:bold,font-size:23px
+    classDef step fill:#f3e5f5,color:#333,stroke:#ab47bc,stroke-width:1px
+    classDef diamond fill:#e1bee7,color:#333,stroke:#8e24aa,stroke-width:1px
+    classDef start fill:#2196f3,color:#fff,stroke:#1976d2,stroke-width:2px
+    classDef kb fill:#4caf50,color:#fff,stroke:#388e3c,stroke-width:2px
+
+    %% --- Chart Definition ---
+    UserInput([📄 User Input:<br>Documents & Processing Profile]):::start
+
+    subgraph subgraph1 [ ]
+        style subgraph1 fill:#fef9e7,stroke:#f1c40f
+        S1_Title[Step 1: Secure Ingestion]:::header
+        S1_Action[🔐 Create Isolated<br>Timestamped Workspace]:::step
     end
 
-    subgraph "Step 1: Secure Workspace Preparation"
-        A["🔐 Create Isolated<br>Timestamped Workspace"]
+    subgraph subgraph2 [ ]
+        style subgraph2 fill:#fef9e7,stroke:#f1c40f
+        S2_Title[Step 2: Intelligent Hybrid Extraction]:::header
+        S2_Decision{🧠 Intelligent Page Analysis}:::diamond
+        S2_PathA[⚡ Path A: Simple Layout<br>High-Speed OCR Extraction]:::step
+        S2_PathB[👁️ Path B: Complex Layout<br>VLM for Tables, Charts, etc.]:::step
     end
 
-    subgraph "Step 2: Hybrid Content Extraction"
-        B{"🧠 Intelligent<br>Page Analysis"}
-        B -- "Simple Layout" --> C["⚡<br>High-Speed OCR"]
-        B -- "Complex Layout" --> D["👁️<br>Vision Language Model<br>(VLM) for Tables, Charts"]
-        C --> E(📝<br>Aggregate &<br>Structure Text)
-        D --> E
+    subgraph subgraph3 [ ]
+        style subgraph3 fill:#fef9e7,stroke:#f1c40f
+        S3_Title[Step 3: Consolidation & Vectorization]:::header
+        S3_Action1[📝 Consolidate and Structure Text]:::step
+        S3_Action2[✂️ Advanced Semantic Chunking]:::step
+        S3_Action3[📤 Stable Sequential Uploads]:::step
+        S3_Action4[🧠 Vectorization and Indexing]:::step
     end
 
-    subgraph "Step 3: Vectorization in AnythingLLM"
-        style ALM fill:#f9f9f9,stroke:#ddd
-        E --> F["✂️<br>Semantic<br>Chunking"]
-        F --> G["📤<br>Stable Sequential<br>Upload to AnythingLLM"]
-        G --> H["➕<br>Vectorize & Index"]
-    end
+    KnowledgeBase([✅ Query-Ready Knowledge Base]):::kb
 
-    subgraph " "
-        H --> KB(["✅<br>Query-Ready<br>Knowledge Base"])
-    end
+    %% --- Explicit Connections ---
+    UserInput --> S1_Title
+    S1_Title --> S1_Action
+    S1_Action --> S2_Title
 
-    %% Define the flow
-    Start --> A --> B
+    S2_Title --> S2_Decision
+    S2_Decision --> S2_PathA
+    S2_Decision --> S2_PathB
+
+    S2_PathA --> S3_Title
+    S2_PathB --> S3_Title
+
+    S3_Title --> S3_Action1
+    S3_Action1 --> S3_Action2
+    S3_Action2 --> S3_Action3
+    S3_Action3 --> S3_Action4
+    S3_Action4 --> KnowledgeBase
 ```
 
 1.  **Initiation:** The user selects documents and a pre-configured Processing Profile via the Gradio UI.
